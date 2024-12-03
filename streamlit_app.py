@@ -38,7 +38,7 @@ with st.form("data_entry_form"):
     in_taktzeit_gefertigt = st.radio("In Taktzeit gefertigt?", ["Ja", "Nein"])
     fehlercode = st.selectbox("Fehlercode", [
         "Störung auswählen", "Technische Störung", "Zündfehler", "Warten auf Logistik",
-        "Brennerwechsel", "Fehler ohne Alarm", "Rüsten", "Drachtwechsel", "Anlage nicht besetzt", "Sonstiges"
+        "Brennerwechsel", "Fehler ohne Alarm", "Rüsten", "Drahtwechsel", "Anlage nicht besetzt", "Sonstiges"
     ])
     bemerkungen = st.text_area("Bemerkungen")
     qualitaet = st.radio("Qualität des gefertigten Produktes?", [
@@ -58,17 +58,17 @@ if submit_button:
         "Meldezeit": meldezeit.strftime("%H:%M"),
         "Taktzeit": vorgegebene_taktzeit
     }
-    df = df.append(new_data, ignore_index=True)
+    df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
     st.success(f"Sattelhals Daten hinzugefügt: FIN {fin}")
 
 # Display Table with Data Entries
 st.subheader("Schichtübersicht")
-st.table(df)
+st.dataframe(df)
 
 # Button to delete the last entry
 if st.button("Letzten Eintrag löschen"):
     if not df.empty:
-        df = df[:-1]
+        df = df.iloc[:-1]
         st.warning("Der letzte Eintrag wurde gelöscht.")
     else:
         st.warning("Es gibt keine Einträge zum Löschen.")
