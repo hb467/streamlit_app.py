@@ -20,7 +20,12 @@ df = pd.DataFrame(data)
 st.set_page_config(page_title="Produktionsdokumentation Dashboard", layout="wide")
 
 # Title and Logo
-st.sidebar.image("logo.png", use_column_width=True)
+logo_path = "logo.png"
+try:
+    st.sidebar.image(logo_path, use_column_width=True)
+except FileNotFoundError:
+    st.sidebar.warning(f"Logo file '{logo_path}' not found.")
+
 st.sidebar.title("Produktionsdokumentation")
 
 # Form to Input Data
